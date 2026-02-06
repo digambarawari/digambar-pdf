@@ -1,0 +1,63 @@
+<div class="min-h-full">
+  <nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center">
+          <div class="md:block">
+            <div class="flex items-baseline space-x-4">
+              <a routerLink="/dashboard" aria-current="page" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Dashboard</a>
+            </div>
+          </div>
+        </div>
+        <div class="md:block">
+          <div class="ml-4 flex items-center md:ml-6">
+            <a *ngIf="!authService.isLoggedIn()" routerLink="/signup" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
+              <span class="absolute -inset-1.5"></span>
+              <span >Signup / Login</span>
+            </a>
+            <div *ngIf="authService.isLoggedIn()" class="flex items-center">
+                <span class="text-white pr-5">Welcome, {{ authService.username() }}</span>
+                <button (click)="logout()" class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ </nav>
+
+<header class="relative bg-white shadow-sm">
+  <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{routeTitle()}}</h1>
+  </div>
+</header>
+<div class="flex min-h-screen">
+  <!-- Left Sidebar -->
+  <aside class="w-30 bg-white transition-all duration-300" [class.w-30]="open" [class.w-0]="!open" [class.border-r]="open">
+    <div class="pl-1 pt-1 font-semibold" [class.fixed]="!open"> 
+      <button (click)="toggle()" class="rounded-md p-1 hover:bg-gray-100">☰</button>
+    </div>
+    <nav class="space-y-1 p-1" [class.hidden]="!open">
+      <a class="block rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100">
+        Filter By
+      </a>
+      <a class="block rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100">
+        Authors
+      </a>
+      <a class="block rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100">
+        Tags
+      </a>
+    </nav>
+  </aside>
+  <!-- Right side: main + footer -->
+  <div class="flex flex-1 flex-col">
+    <!-- Main content -->
+    <main class="flex-1 pl-10 p-6 bg-gray-50">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t bg-white px-6 py-4 text-sm text-gray-500">
+      © 2026 Your Company
+    </footer>
+  </div>
+</div>
