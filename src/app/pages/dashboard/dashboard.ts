@@ -11,7 +11,6 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
-  searchTerm = signal<string>('');
   constructor(public pdfService: PdfService, private sanitizer: DomSanitizer, private router: Router) {
     if(!this.pdfService.pdfListLoaded()) {
       this.pdfService.getPdfList().subscribe();
@@ -37,9 +36,9 @@ export class Dashboard {
   // Update pdf list with search value
   onSearchPdf(event: Event) {
     const value = (event.target as HTMLInputElement).value;
-    this.searchTerm.set(value);
+    this.pdfService.searchTerm.set(value);
     //check for empty search and reset the pdf list
-    const term = this.secureLower(this.searchTerm());
+    const term = this.secureLower(this.pdfService.searchTerm());
     if (!term) {
       this.pdfService.pdfListDetails.set(this.pdfService.pdfMainListDetails()); 
       return;

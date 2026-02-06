@@ -8,6 +8,8 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class PdfService {
+  //Search signal
+  searchTerm = signal<string>('');
   //Singal to show the pdf list fetch from server only once. will reset after logout
   pdfListLoaded = signal(false);
   //Signal to show on view pdf page

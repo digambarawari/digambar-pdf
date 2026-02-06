@@ -13,7 +13,7 @@
         <input
             type="text"
             placeholder="Search by title or author..."
-            [value]="searchTerm()"
+            [value]="pdfService.searchTerm()"
             (input)="onSearchPdf($event)"
             class="w-full border rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
         <span class="absolute left-3 top-2.5 text-gray-400">
@@ -35,7 +35,17 @@
 <div *ngIf="pdfService.pdfListDetails().length > 0; else noPdfs" class="mx-auto mt-6 space-y-4">
     <div *ngFor="let item of pdfService.pdfListDetails()"
         class="p-4 bg-white rounded shadow-md">
-    <h3 class="text-xl font-bold">{{ item.title }} ({{ item.rating }}/5)</h3>
+    <h3 class="text-xl font-bold">{{ item.title }}
+      <p class="float-right">
+        Rating: 
+        <span
+          *ngFor="let star of [1,2,3,4,5]"
+          class="text-yellow-400"
+        >
+          {{ star <= item.rating ? '★' : '☆' }}
+        </span>
+      </p>
+    </h3>
     <p class="text-gray-700">{{ item.description }}</p>
     <p class="text-sm text-gray-500">Author: {{ item.author.name }} | Tags: {{ getTagNames(item.tags) }}</p>
     <a routerLink="/viewpdf" (click)="setPdfUrl(item.assets[0].url, item.title, item.author.name)" class="text-blue-500 hover:underline mt-2 inline-block">View PDF</a>
