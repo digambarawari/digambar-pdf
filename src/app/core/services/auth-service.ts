@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment.development';
 import { GLOBAL_CONSTANTS } from '../constants/global.constants';
-import { LoginResponse, LoginRequest, SignupRequest } from '../enums/interface';
+import { LoginResponse, LoginRequest, SignupRequest, AuthMeResponse } from '../enums/interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -31,15 +31,24 @@ export class AuthService {
         tap(res => {
           console.log('Login successful:', res);
           localStorage.setItem(this.tokenKey, res.accessToken);
-          if(res.userfname && res.userlname) {
-            localStorage.setItem(this.usernameKey, res.userfname+' '+res.userlname);
-            this.username.set(res.userfname+' '+res.userlname);  
+          this.isLoggedIn.set(true);          
+        })
+      );
+  }
+
+  authme() {
+    return this.http
+      .get<AuthMeResponse>(environment.API_URL + GLOBAL_CONSTANTS.API_ENPOINT.AUTH_ME)
+      .pipe(
+        tap(res => {
+          console.log('Auth me successful:', res);
+          if(res.firstName && res.lastName) {
+            localStorage.setItem(this.usernameKey, res.firstName+' '+res.lastName);
+            this.username.set(res.firstName+' '+res.lastName);  
           } else {
             localStorage.setItem(this.usernameKey, GLOBAL_CONSTANTS.DEFAULT_USERNAME);
             this.username.set(GLOBAL_CONSTANTS.DEFAULT_USERNAME);
           }
-          this.isLoggedIn.set(true);
-          
         })
       );
   }

@@ -1,9 +1,13 @@
 <div class="min-h-full">
   <nav class="bg-gray-800">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
-          <div class="md:block">
+          <div class="flex items-baseline space-x-4">
+            <span>
+              <img src="https://www.bhrigu.tech/files/Bhrigu-logo-concept-2-0.png" alt="Logo" class="h-8" />
+            </span>
             <div class="flex items-baseline space-x-4">
               <a routerLink="/dashboard" aria-current="page" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Dashboard</a>
             </div>
@@ -31,23 +35,6 @@
   </div>
 </header>
 <div class="flex min-h-screen">
-  <!-- Left Sidebar -->
-  <aside class="w-30 bg-white transition-all duration-300" [class.w-30]="open" [class.w-0]="!open" [class.border-r]="open">
-    <div class="pl-1 pt-1 font-semibold" [class.fixed]="!open"> 
-      <button (click)="toggle()" class="rounded-md p-1 hover:bg-gray-100">☰</button>
-    </div>
-    <nav class="space-y-1 p-1" [class.hidden]="!open">
-      <a class="block rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100">
-        Filter By
-      </a>
-      <a class="block rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100">
-        Authors
-      </a>
-      <a class="block rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100">
-        Tags
-      </a>
-    </nav>
-  </aside>
   <!-- Right side: main + footer -->
   <div class="flex flex-1 flex-col">
     <!-- Main content -->
@@ -57,7 +44,7 @@
 
     <!-- Footer -->
     <footer class="border-t bg-white px-6 py-4 text-sm text-gray-500">
-      © 2026 Your Company
+      Bhrigu©2026
     </footer>
   </div>
 </div>

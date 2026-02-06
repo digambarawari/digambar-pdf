@@ -1,9 +1,26 @@
 
 export interface LoginResponse {
-  email: string;
-  userfname: string;
-  userlname: string;
+  refreshToken: string;
   accessToken: string;
+}
+
+export interface AuthMeResponse {
+    id: string
+    email: string,
+    firstName: string,
+    lastName: string,
+    image: string,
+    quota: number,
+    usedSpace: number,
+    plan: string,
+    birthDate: string | null,
+    role: string,
+    emailVerified: boolean,
+    createdAt: string,
+    updatedAt: string,
+    session: string,
+    iat: number,
+    exp: number
 }
 
 export interface LoginRequest {
@@ -17,4 +34,51 @@ export interface SignupRequest {
   passwordConfirmation: string;
   firstName: string;
   lastName: string;
+}
+
+export interface PdfListDetails {
+  id: string,
+  title: string,
+  description: null,
+  publishedOn: null,
+  rating: number,
+  readPage: number,
+  totalPages: null,
+  authorId: string,
+  userId: string,
+  tagIds: [],
+  createdAt: string,
+  updatedAt: string,
+  author: {
+      id: string,
+      name: string,
+      image: string,
+      userId: string,
+      createdAt: string,
+      updatedAt: string
+  },
+  tags: [],
+  assets: [
+      {
+          id: string,
+          name: string,
+          url: string,
+          size: number,
+          mimetype: string,
+          bucket: string,
+          docId: string,
+          userId: string,
+          createdAt: string,
+          updatedAt: string
+      }
+  ]
+}
+
+export interface AddPdfDetails {
+  title: string;
+  description: string;
+  rating: string;
+  authorName: string;
+  tags: string;
+  file: string;
 }

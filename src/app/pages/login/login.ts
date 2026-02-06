@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth-service';
 import { RouterModule } from '@angular/router';
 import { LoginRequest } from '../../core/enums/interface';
@@ -14,46 +14,13 @@ import { LoginRequest } from '../../core/enums/interface';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-  /*loginForm: FormGroup;
-  loading = false;
   error: string | null = null;
-  router = inject(Router);
-
-  constructor(private fb: FormBuilder, private auth: AuthService) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+  constructor(private auth: AuthService, private router: Router) {
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
-  submit() {
-    if (this.loginForm.invalid) return;
-
-    this.loading = true;
-    this.error = null;
-
-    const { email, password } = this.loginForm.value;
-
-    const loginRequest: LoginRequest = {
-      email,
-      password
-    };
-
-    this.auth.login(loginRequest).subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigate(['/dashboard']);// Navigate to dashboard
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.error?.message || 'Login failed';
-      }
-    });
-  }*/
-  //---------------------------------------
-  router = inject(Router);
-  auth = inject(AuthService);
-  error: string | null = null;
   // Login form fields
   loading = signal(false);
   email = signal('');
@@ -98,6 +65,7 @@ export class LoginComponent {
     this.auth.login(loginRequest).subscribe({
       next: () => {
         console.log('Login successful');
+        this.auth.authme().subscribe();
         this.loading.set(false);
         this.router.navigate(['/dashboard']);// Navigate to dashboard
       },

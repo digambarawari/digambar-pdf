@@ -15,7 +15,6 @@ export class App {
   title = signal('mypdf');
   router = inject(Router);
   authService = inject(AuthService);
-  open = true;
 
   routeTitle = toSignal(
     this.router.events.pipe(
@@ -27,6 +26,8 @@ export class App {
             return 'Signup';
           case url.includes('login'):
             return 'Login';
+          case url.includes('uploadpdf'):
+            return 'Upload PDF';
           default:
             return 'Dashboard';
         }
@@ -35,10 +36,6 @@ export class App {
     { initialValue: null }
   );
 
-  toggle() {
-    this.open = !this.open;
-  }
-  
   logout() {
     this.authService.logout();
   }

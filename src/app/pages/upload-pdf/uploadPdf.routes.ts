@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
-import { Dashboard } from './dashboard';
+import { UploadPdf } from './../upload-pdf/upload-pdf';
 import { AuthGuard } from '../../core/guards/auth.guard';
 
-export const dashboardRoutes: Routes = [
+export const uploadPdfRoutes: Routes = [
   {
     path: '',
-    component: Dashboard,
+    component: UploadPdf,
     canActivate: [AuthGuard],
     children: [
-      { path: 'dashboard', component: Dashboard },
+      { path: 'uploadpdf', component: UploadPdf }
     ]
   }
 ];

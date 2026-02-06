@@ -18,9 +18,11 @@ export class SignupComponent {
   signupForm: FormGroup;
   loading = false;
   error: string | null = null;
-  router = inject(Router);
   
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+    if (auth.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
