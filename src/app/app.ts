@@ -12,7 +12,7 @@ import { filter, map } from 'rxjs/operators';
   styleUrl: './app.css'
 })
 export class App {
-  title = signal('mypdf');
+  title = signal('managepdf');
   router = inject(Router);
   authService = inject(AuthService);
 
