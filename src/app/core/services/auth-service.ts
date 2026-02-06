@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment.development';
 import { GLOBAL_CONSTANTS } from '../constants/global.constants';
 import { LoginResponse, LoginRequest, SignupRequest, AuthMeResponse } from '../enums/interface';
+import { PdfService } from './pdf-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,7 +15,7 @@ export class AuthService {
   isLoggedIn = signal<boolean>(!!this.token);
   username = signal<string|null>(localStorage.getItem(this.usernameKey));
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private pdfService: PdfService) {}
 
   get token() {
     return localStorage.getItem(this.tokenKey);
@@ -68,6 +69,9 @@ export class AuthService {
     localStorage.removeItem(this.usernameKey);
     this.isLoggedIn.set(false);
     this.username.set(null);
+    this.pdfService.pdfListLoaded.set(false);
+    this.pdfService.selectedPdfUrl.set(null);
+    this.pdfService.selectedPdfTitle.set(null);
     console.log('Logged out successfully', this.isLoggedIn(), this.username());
     this.router.navigate(['/login']);
   }

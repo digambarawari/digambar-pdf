@@ -4,11 +4,13 @@ import { PdfListDetails } from '../enums/interface';
 import { environment } from '../../../environments/environment.development';
 import { GLOBAL_CONSTANTS } from '../constants/global.constants';
 import { tap } from 'rxjs';
-
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable({ providedIn: 'root' })
 export class PdfService {
   pdfListLoaded = signal(false);
+  selectedPdfTitle = signal<string | null>(null);
+  selectedPdfUrl = signal<SafeResourceUrl | null>(null);
   // Signal holding the current pdf items
   pdfListDetails: WritableSignal<PdfListDetails[]> = signal<PdfListDetails[]>([]);
 

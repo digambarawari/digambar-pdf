@@ -1,0 +1,11 @@
+<div *ngIf="pdfService.selectedPdfUrl()" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+  <div class="bg-white w-full h-full md:w-11/12 md:h-[90vh] rounded-lg overflow-hidden relative">
+
+    <div class="flex justify-between items-center px-4 py-2 border-b">
+      <h2 class="font-semibold">{{ pdfService.selectedPdfTitle() }}</h2>
+      <button routerLink="/dashboard" (click)="closePdf()" class="text-gray-500 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" title="close PDF"> ✕ </button>
+    </div>
+    <!-- view PDF Iframe -->
+    <iframe [src]="pdfService.selectedPdfUrl()" class="w-full h-full" frameborder="0"></iframe>
+  </div>
+</div>

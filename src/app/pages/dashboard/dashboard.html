@@ -36,7 +36,7 @@
     <h3 class="text-xl font-bold">{{ item.title }} ({{ item.rating }}/5)</h3>
     <p class="text-gray-700">{{ item.description }}</p>
     <p class="text-sm text-gray-500">Author: {{ item.author.name }} | Tags: {{ getTagNames(item.tags) }}</p>
-    <a [href]="item.assets[0].url" target="_blank" class="text-blue-500 hover:underline mt-2 inline-block">View PDF</a>
+    <a routerLink="/viewpdf" (click)="setPdfUrl(item.assets[0].url, item.title)" class="text-blue-500 hover:underline mt-2 inline-block">View PDF</a>
     </div>
 </div>
 <ng-template #noPdfs>
