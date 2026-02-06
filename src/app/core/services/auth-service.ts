@@ -16,33 +16,33 @@ export class AuthService {
   username = signal<string|null>(localStorage.getItem(this.usernameKey));
 
   constructor(private http: HttpClient, private router: Router, private pdfService: PdfService) {}
-
+  //getter function
   get token() {
     return localStorage.getItem(this.tokenKey);
   }
-
+  //getter function
   get usernames() {
     return localStorage.getItem(this.usernameKey);
   }
-
+  //Login API call
   login(loginRequest: LoginRequest) {
     return this.http
       .post<LoginResponse>(environment.API_URL + GLOBAL_CONSTANTS.API_ENPOINT.LOGIN, loginRequest)
       .pipe(
         tap(res => {
-          console.log('Login successful:', res);
+          // successfull login
           localStorage.setItem(this.tokenKey, res.accessToken);
           this.isLoggedIn.set(true);          
         })
       );
   }
-
+  //Auth me API call to get the user details after login
   authme() {
     return this.http
       .get<AuthMeResponse>(environment.API_URL + GLOBAL_CONSTANTS.API_ENPOINT.AUTH_ME)
       .pipe(
         tap(res => {
-          console.log('Auth me successful:', res);
+          // set username with auth me details
           if(res.firstName && res.lastName) {
             localStorage.setItem(this.usernameKey, res.firstName+' '+res.lastName);
             this.username.set(res.firstName+' '+res.lastName);  
@@ -53,17 +53,17 @@ export class AuthService {
         })
       );
   }
-
+  //Sign up API call
   signup(SignupRequest: SignupRequest) {
     return this.http
       .post<LoginResponse>(environment.API_URL + GLOBAL_CONSTANTS.API_ENPOINT.SIGNUP, SignupRequest)
       .pipe(
         tap(res => {
-          console.log('Sign successful:', res);          
+          // successfully sign up         
         })
       );
   }
-
+  //Logout function to clear local storage and reset signals
   logout() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.usernameKey);
@@ -72,7 +72,8 @@ export class AuthService {
     this.pdfService.pdfListLoaded.set(false);
     this.pdfService.selectedPdfUrl.set(null);
     this.pdfService.selectedPdfTitle.set(null);
-    console.log('Logged out successfully', this.isLoggedIn(), this.username());
+    this.pdfService.selectedPdfAuthor.set(null);
+    console.log('Logged out successfully');
     this.router.navigate(['/login']);
   }
 

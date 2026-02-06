@@ -1,9 +1,9 @@
-
+//Login API response
 export interface LoginResponse {
   refreshToken: string;
   accessToken: string;
 }
-
+//Auth me api response
 export interface AuthMeResponse {
     id: string
     email: string,
@@ -22,12 +22,12 @@ export interface AuthMeResponse {
     iat: number,
     exp: number
 }
-
+//Login Request
 export interface LoginRequest {
   email: string;
   password: string;
 }
-
+//Sign up request
 export interface SignupRequest {
   email: string;
   password: string;
@@ -35,11 +35,11 @@ export interface SignupRequest {
   firstName: string;
   lastName: string;
 }
-
+//Pdf listing class
 export interface PdfListDetails {
   id: string,
   title: string,
-  description: null,
+  description: string,
   publishedOn: null,
   rating: number,
   readPage: number,
@@ -72,13 +72,4 @@ export interface PdfListDetails {
           updatedAt: string
       }
   ]
-}
-
-export interface AddPdfDetails {
-  title: string;
-  description: string;
-  rating: string;
-  authorName: string;
-  tags: string;
-  file: string;
 }

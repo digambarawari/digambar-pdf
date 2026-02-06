@@ -16,6 +16,7 @@ import { LoginRequest } from '../../core/enums/interface';
 export class LoginComponent {
   error: string | null = null;
   constructor(private auth: AuthService, private router: Router) {
+    //if user already logged in, redirect to dashboard
     if (this.auth.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
@@ -26,20 +27,20 @@ export class LoginComponent {
   email = signal('');
   password = signal('');
 
-  // interaction state
+  // signal interaction state
   touched = signal({
     email: false,
     password: false
   });
 
-  // validations
+  // email validations
   emailError = computed(() => {
     if (!this.touched().email) return null;
     if (!this.email()) return 'Email is required';
     if (!/^\S+@\S+\.\S+$/.test(this.email())) return 'Invalid email';
     return null;
   });
-
+  // password validations
   passwordError = computed(() => {
     if (!this.touched().password) return null;
     if (!this.password()) return 'Password is required';
@@ -51,23 +52,24 @@ export class LoginComponent {
   isValid = computed(() =>
     !this.emailError() && !this.passwordError()
   );
-
+  // submit login form
   submit(event: Event) {
     event.preventDefault();
     if (!this.isValid()) return;
     this.loading.set(true);
-
+    // Create login request object
     const loginRequest: LoginRequest = {
       email: this.email(),
       password: this.password()
     };
-
+    // Call auth service to login
     this.auth.login(loginRequest).subscribe({
       next: () => {
         console.log('Login successful');
         this.auth.authme().subscribe();
         this.loading.set(false);
-        this.router.navigate(['/dashboard']);// Navigate to dashboard
+        // Redirect to dashboard on successful login
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.loading.set(false);

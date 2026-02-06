@@ -20,9 +20,11 @@ export class SignupComponent {
   error: string | null = null;
   
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
+    // Redirect to dashboard if already logged in
     if (auth.isLoggedIn()) {
       this.router.navigate(['/dashboard']);
     }
+    //sign up form with validation
     this.signupForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -32,8 +34,9 @@ export class SignupComponent {
     },
     { validators: passwordMatchValidator });
   }
-
+  // Function to handle form submission
   submit() {
+    //If any error then return and show error message
     if (this.signupForm.invalid) return;
     
     this.loading = true;
@@ -48,11 +51,12 @@ export class SignupComponent {
       firstName,
       lastName
     };
-
+    // Call the signup method from AuthService
     this.auth.signup(signupRequest).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/login']);// Navigate to login page after successful signup
+        // Navigate to login page after successful signup
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         this.loading = false;

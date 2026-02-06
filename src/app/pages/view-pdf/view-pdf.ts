@@ -15,5 +15,6 @@ export class ViewPdf {
   closePdf() {
     this.pdfService.selectedPdfUrl.set(null);
     this.pdfService.selectedPdfTitle.set(null);
+    this.pdfService.selectedPdfAuthor.set(null);
   }
 }

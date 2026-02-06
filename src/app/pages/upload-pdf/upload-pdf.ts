@@ -124,7 +124,8 @@ export class UploadPdf {
         this.authorName.set('');
         this.tags.set('');
         this.selectedFile.set(null);
-        this.router.navigate(['/dashboard']);// Navigate to pdf dashboard
+        // Navigate to dashboard after successful upload
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         this.uploading.set(false);
