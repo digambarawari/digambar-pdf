@@ -73,3 +73,10 @@ export interface PdfListDetails {
       }
   ]
 }
+
+//Pdf listing class
+export interface UpdatePdfDetails {
+  title: string,
+  description: string,
+  rating: number
+}

@@ -7,6 +7,7 @@ export const GLOBAL_CONSTANTS = {
         AUTH_ME: '/auth/me', // Auth me endpoint
         PDF_LIST: '/docs', // PDF list endpoint
         UPLOAD_PDF: '/add-doc', // Upload pdf endpoint
-        DELETE_PDF: '/docs'  // DELETE_PDF endpoint,
+        DELETE_PDF: '/docs',  // DELETE_PDF endpoint,
+        UPDATE_PDF: '/docs'  // DELETE_PDF endpoint,
     }
 }

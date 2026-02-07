@@ -15,6 +15,7 @@ export class Dashboard {
   selecetedPdfId = signal<string | null>(null);
 
   constructor(public pdfService: PdfService, private sanitizer: DomSanitizer, private router: Router) {
+    this.pdfService.editPdfId.set(null);
     //Check for pdf list loaded if loaded then get it from localstorage
     if(!this.pdfService.pdfListLoaded() && !localStorage.getItem('pdfList')) {
       this.pdfService.getPdfList().subscribe();
@@ -22,7 +23,7 @@ export class Dashboard {
       if(this.pdfService.searchTerm() !== '') {
         let serchVal = this.pdfService.searchTerm();
         //search pdf with title, author, description, tag and update pdf list
-        this.pdfService.pdfListDetails.update(current => {
+        this.pdfService.pdfListDetailSig.update(current => {
           return current.filter(pdf => 
             this.secureLower(pdf.title).includes(serchVal) ||
             this.secureLower(pdf.description).includes(serchVal) ||
@@ -32,7 +33,7 @@ export class Dashboard {
         });
       } else {
         this.pdfService.pdfMainListDetails.set(JSON.parse(localStorage.getItem('pdfList') || '[]'));
-        this.pdfService.pdfListDetails.set(this.pdfService.pdfMainListDetails());
+        this.pdfService.pdfListDetailSig.set(this.pdfService.pdfMainListDetails());
         this.pdfService.pdfListLoaded.set(true);
       }
     } else {
@@ -63,11 +64,11 @@ export class Dashboard {
     //check for empty search and reset the pdf list
     const term = this.secureLower(this.pdfService.searchTerm());
     if (!term) {
-      this.pdfService.pdfListDetails.set(this.pdfService.pdfMainListDetails()); 
+      this.pdfService.pdfListDetailSig.set(this.pdfService.pdfMainListDetails()); 
       return;
     }
     //search pdf with title, author, description, tag and update pdf list
-    this.pdfService.pdfListDetails.update(current => {
+    this.pdfService.pdfListDetailSig.update(current => {
       return current.filter(pdf => 
         this.secureLower(pdf.title).includes(term) ||
         this.secureLower(pdf.description).includes(term) ||
@@ -80,7 +81,6 @@ export class Dashboard {
   // Delete PDF from dashboard
   deletePdf() {
     let pdfId = this.selecetedPdfId();
-    console.log('pdfid',pdfId);
     if(pdfId !== null) {
       this.pdfService.deletePdf(pdfId).subscribe(() => {
         this.selecetedPdfId.set(null);
@@ -89,10 +89,15 @@ export class Dashboard {
     }
   }
 
+  updatePdfDetails(pdfId: string) {
+    this.pdfService.editPdfId.set(pdfId);
+    this.router.navigate(['/updatepdf']);
+  }
+
   // Remove PDF from dashboard lists and localStorage after successful delete API call
   removePdfFromDashboard(pdfId: string) {
     // Remove the PDF from both main and working lists
-    this.pdfService.pdfListDetails.update(current => current.filter(pdf => pdf.id !== pdfId));
+    this.pdfService.pdfListDetailSig.update(current => current.filter(pdf => pdf.id !== pdfId));
     this.pdfService.pdfMainListDetails.update(current => current.filter(pdf => pdf.id !== pdfId));
     // Update localStorage with the new lists
     localStorage.setItem('pdfList', JSON.stringify(this.pdfService.pdfMainListDetails()));

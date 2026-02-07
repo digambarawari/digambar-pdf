@@ -28,6 +28,8 @@ export class App {
             return 'Log in';
           case url.includes('uploadpdf'):
             return 'Upload PDF';
+          case url.includes('updatepdf'):
+            return 'Update PDF';
           default:
             return 'Dashboard';
         }

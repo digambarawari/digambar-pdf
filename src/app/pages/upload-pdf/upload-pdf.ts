@@ -113,9 +113,9 @@ export class UploadPdf {
     // pdf upload service
     this.uploading.set(true);
     this.pdfService.uploadPdf(formData).subscribe({
-      next: () => {
+      next: (res) => {
         this.uploading.set(false);
-        console.log('PDF uploaded successfully');
+        this.pdfService.addToDashboard(res); // Add the new PDF to the dashboard list
         // Reset signal of form elements and navigate to pdf dashboard
         this.title.set('');
         this.error.set(null);

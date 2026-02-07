@@ -31,11 +31,11 @@
   </div>
 </div>
 <!-- Dashboard PDF list  -->
-<div *ngIf="pdfService.pdfListDetails().length > 0; else noPdfs" class="mx-auto mt-6 space-y-4">
+<div *ngIf="pdfService.pdfListDetailSig().length > 0; else noPdfs" class="mx-auto mt-6 space-y-4">
     <p *ngIf="!pdfService.pdfListLoaded()" class="text-sm text-gray-400 text-center mt-6">
       Loading...
     </p>
-    <div *ngFor="let item of pdfService.pdfListDetails()"
+    <div *ngFor="let item of pdfService.pdfListDetailSig()"
         class="p-4 bg-white rounded shadow-md">
     <h3 class="text-lg">{{ item.title }}
       <p class="float-right">
@@ -48,7 +48,8 @@
     <p class="text-gray-700">{{ item.description }}</p>
     <p class="text-sm text-gray-500">Author: {{ item.author.name }} | Tags: {{ getTagNames(item.tags) }}</p>
     <a routerLink="/viewpdf" (click)="setPdfUrl(item.assets[0].url, item.title, item.author.name)" class="text-blue-500 hover:underline mt-2 pr-2 inline-block">View PDF</a> |
-    <a href="javascript:void(0)" (click)="openConfirm(item.id)" class="text-blue-500 hover:underline mt-2 pl-2 inline-block">Delete PDF</a>
+    <a href="javascript:void(0)" (click)="openConfirm(item.id)" class="text-blue-500 hover:underline mt-2 pl-2 inline-block">Delete PDF</a> |
+    <a href="javascript:void(0)" (click)="updatePdfDetails(item.id)" class="text-blue-500 hover:underline mt-2 pl-2 inline-block">Update</a>
     </div>
 </div>
 <!-- No PDF sectoin  -->

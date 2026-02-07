@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./pages/upload-pdf/uploadPdf.routes').then(m => m.uploadPdfRoutes)
   },
   { 
+    path: 'updatepdf',
+    loadChildren: () =>
+      import('./pages/update-pdf/updatePdf.routes').then(m => m.updatePdfRoutes)
+  },
+  { 
     path: 'viewpdf',
     loadChildren: () =>
       import('./pages/view-pdf/viewpdf.routes').then(m => m.viewPdfRoutes)
