@@ -19,7 +19,7 @@
               <a routerLink="/login" class="text-sm/6 font-semibold text-gray-900" title="Log in">Log in <span aria-hidden="true">&rarr;</span></a>
             </div>
             <div *ngIf="authService.isLoggedIn()" class="flex items-center">
-                <span class="text-white pr-5">Welcome, {{ authService.username() }}</span>
+                <span class="pr-5">Welcome, {{ authService.username() }}</span>
                 <button (click)="logout()" title="Logout" class="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600">Logout</button>
             </div>
           </div>
