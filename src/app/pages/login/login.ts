@@ -14,7 +14,7 @@ import { LoginRequest } from '../../core/enums/interface';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-  error: string | null = null;
+  error = signal<string | null>(null);
   constructor(private auth: AuthService, private router: Router) {
     //if user already logged in, redirect to dashboard
     if (this.auth.isLoggedIn()) {
@@ -73,7 +73,7 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading.set(false);
-        this.error = err.error?.message || 'Login failed';
+        this.error.set(err.error?.message || 'Login failed');
       }
     });
   }

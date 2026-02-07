@@ -23,9 +23,9 @@ export class App {
         const url = this.router.url;
         switch (true) {
           case url.includes('signup'):
-            return 'Signup';
+            return 'Sign up';
           case url.includes('login'):
-            return 'Login';
+            return 'Log in';
           case url.includes('uploadpdf'):
             return 'Upload PDF';
           default:

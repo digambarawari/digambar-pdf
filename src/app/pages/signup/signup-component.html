@@ -3,10 +3,10 @@
     <h1 class="mb-6 text-center text-2xl font-semibold">
       Create account
     </h1>
-
+    <p *ngIf="error()" class="mb-4 text-red-500 text-center"> {{ error() }} </p>
     <form [formGroup]="signupForm" (ngSubmit)="submit()" class="space-y-4">
       <div>
-        <label class="mb-1 block text-sm font-medium">First Name</label>
+        <label class="mb-1 block text-sm font-medium">First Name<span class="text-red-500">*</span></label>
         <input
           type="text"
           formControlName="firstName"
@@ -17,7 +17,7 @@
         </p>
       </div>
       <div>
-        <label class="mb-1 block text-sm font-medium">Last Name</label>
+        <label class="mb-1 block text-sm font-medium">Last Name<span class="text-red-500">*</span></label>
         <input
           type="text"
           formControlName="lastName"
@@ -28,7 +28,7 @@
         </p>
       </div>
       <div>
-        <label class="mb-1 block text-sm font-medium">Email</label>
+        <label class="mb-1 block text-sm font-medium">Email<span class="text-red-500">*</span></label>
         <input
           type="email"
           formControlName="email"
@@ -40,7 +40,7 @@
         </p>
       </div>
       <div>
-        <label class="mb-1 block text-sm font-medium">Password</label>
+        <label class="mb-1 block text-sm font-medium">Password<span class="text-red-500">*</span></label>
         <input
           type="password"
           formControlName="password"
@@ -54,7 +54,7 @@
 
       <div>
         <label class="mb-1 block text-sm font-medium">
-          Confirm password
+          Confirm password<span class="text-red-500">*</span>
         </label>
         <input
           type="password"
@@ -72,10 +72,10 @@
 
       <button
         type="submit"
-        [disabled]="loading"
+        [disabled]="loading()"
         class="w-full rounded-md bg-blue-600 py-2 text-white hover:bg-blue-700 disabled:opacity-50"
       >
-        {{ loading ? 'Creating account…' : 'Sign up' }}
+        {{ loading() ? 'Creating account…' : 'Sign up' }}
       </button>
     </form>
 

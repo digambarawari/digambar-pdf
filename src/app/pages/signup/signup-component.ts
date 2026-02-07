@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,8 +16,8 @@ import { passwordMatchValidator } from '../../core/helpers/passwordMatch';
 })
 export class SignupComponent {
   signupForm: FormGroup;
-  loading = false;
-  error: string | null = null;
+  loading = signal(false);
+  error = signal<string | null>(null);
   
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     // Redirect to dashboard if already logged in
@@ -39,8 +39,8 @@ export class SignupComponent {
     //If any error then return and show error message
     if (this.signupForm.invalid) return;
     
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
 
     const { email, password, passwordConfirmation, firstName, lastName } = this.signupForm.value;
 
@@ -54,13 +54,13 @@ export class SignupComponent {
     // Call the signup method from AuthService
     this.auth.signup(signupRequest).subscribe({
       next: () => {
-        this.loading = false;
+        this.loading.set(false);
         // Navigate to login page after successful signup
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        this.loading = false;
-        this.error = err.error?.message || 'Signup failed';
+        this.loading.set(false);
+        this.error.set(err.error?.message || 'Signup failed');
       }
     });
   }
