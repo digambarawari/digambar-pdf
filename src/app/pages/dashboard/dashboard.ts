@@ -11,8 +11,31 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrl: './dashboard.css',
 })
 export class Dashboard {
+  isDeleteConfirmOpen = signal<boolean>(false);
+  selecetedPdfId = signal<string | null>(null);
+
   constructor(public pdfService: PdfService, private sanitizer: DomSanitizer, private router: Router) {
-    if(!this.pdfService.pdfListLoaded()) {
+    //Check for pdf list loaded if loaded then get it from localstorage
+    if(!this.pdfService.pdfListLoaded() && !localStorage.getItem('pdfList')) {
+      this.pdfService.getPdfList().subscribe();
+    } else if (localStorage.getItem('pdfList')) {
+      if(this.pdfService.searchTerm() !== '') {
+        let serchVal = this.pdfService.searchTerm();
+        //search pdf with title, author, description, tag and update pdf list
+        this.pdfService.pdfListDetails.update(current => {
+          return current.filter(pdf => 
+            this.secureLower(pdf.title).includes(serchVal) ||
+            this.secureLower(pdf.description).includes(serchVal) ||
+            this.secureLower(pdf.author.name).includes(serchVal) ||
+            this.getTagNames(pdf.tags).toLowerCase().includes(serchVal)
+          );
+        });
+      } else {
+        this.pdfService.pdfMainListDetails.set(JSON.parse(localStorage.getItem('pdfList') || '[]'));
+        this.pdfService.pdfListDetails.set(this.pdfService.pdfMainListDetails());
+        this.pdfService.pdfListLoaded.set(true);
+      }
+    } else {
       this.pdfService.getPdfList().subscribe();
     }
   }
@@ -52,6 +75,42 @@ export class Dashboard {
         this.getTagNames(pdf.tags).toLowerCase().includes(term)
       );
     });
+  }
+
+  // Delete PDF from dashboard
+  deletePdf() {
+    let pdfId = this.selecetedPdfId();
+    console.log('pdfid',pdfId);
+    if(pdfId !== null) {
+      this.pdfService.deletePdf(pdfId).subscribe(() => {
+        this.selecetedPdfId.set(null);
+        this.removePdfFromDashboard(pdfId);
+      });
+    }
+  }
+
+  // Remove PDF from dashboard lists and localStorage after successful delete API call
+  removePdfFromDashboard(pdfId: string) {
+    // Remove the PDF from both main and working lists
+    this.pdfService.pdfListDetails.update(current => current.filter(pdf => pdf.id !== pdfId));
+    this.pdfService.pdfMainListDetails.update(current => current.filter(pdf => pdf.id !== pdfId));
+    // Update localStorage with the new lists
+    localStorage.setItem('pdfList', JSON.stringify(this.pdfService.pdfMainListDetails()));
+  }
+
+  // Open confirmation dialog before deleting PDF
+  openConfirm(pdfId: string) {
+    this.selecetedPdfId.set(pdfId);
+    this.isDeleteConfirmOpen.set(true);
+  }
+  // Close confirmation dialog
+  closeConfirm() {
+    this.isDeleteConfirmOpen.set(false);
+  }
+  // Confirm delete action and call delete API
+  confirmDelete() {
+    this.closeConfirm();
+    this.deletePdf();
   }
 
 }

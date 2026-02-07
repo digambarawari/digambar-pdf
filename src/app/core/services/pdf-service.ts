@@ -43,6 +43,18 @@ export class PdfService {
           this.pdfMainListDetails.set(res);
           this.pdfListDetails.set(res);
           this.pdfListLoaded.set(true);
+          localStorage.setItem('pdfList', JSON.stringify(res));
+        })
+      );
+  }
+  // Delete PDF API call
+  deletePdf(pdfId: string) {
+    console.log('pdfid',pdfId);
+    return this.http
+      .delete<{ message: string }>(environment.API_URL + GLOBAL_CONSTANTS.API_ENPOINT.DELETE_PDF + `/${pdfId}`) 
+      .pipe(
+        tap(res => {
+          console.log(`PDF with ID ${pdfId} deleted from server: ${res}`);                   
         })
       );
   }

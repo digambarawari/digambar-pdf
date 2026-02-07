@@ -73,6 +73,7 @@ export class AuthService {
     this.pdfService.selectedPdfUrl.set(null);
     this.pdfService.selectedPdfTitle.set(null);
     this.pdfService.selectedPdfAuthor.set(null);
+    localStorage.removeItem('pdfList');
     console.log('Logged out successfully');
     this.router.navigate(['/login']);
   }
